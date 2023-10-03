@@ -6,7 +6,7 @@ spec:
   version: 1
   backendName: san-secured
   storageDriverName: ontap-san
-  managementLIF: 192.168.0.136
+  managementLIF: 192.168.0.133
   storagePrefix: san_chap_
   useCHAP: true
   credentials:
