@@ -1,0 +1,106 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: oldpacman
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: op-mongo-storage
+  namespace: oldpacman
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  storageClassName: sc-nas-svm1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: op-mongo
+  name: op-mongo
+  namespace: oldpacman
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 27017
+      targetPort: 27017
+  selector:
+    name: op-mongo
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: op-mongo
+  name: op-mongo
+  namespace: oldpacman
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: op-mongo
+  template:
+    metadata:
+      labels:
+        name: op-mongo
+    spec:
+      containers:
+      - image: quay.io/trident-mirror/kcduk/mongo:3.2
+        imagePullPolicy: IfNotPresent
+        name: op-mongo
+        ports:
+        - name: op-mongo
+          containerPort: 27017
+        volumeMounts:
+          - name: op-mongo-db
+            mountPath: /data/db
+      volumes:
+        - name: op-mongo-db
+          persistentVolumeClaim:
+            claimName: op-mongo-storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oldpacman
+  namespace: oldpacman
+  labels:
+    name: oldpacman
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    name: oldpacman
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: oldpacman
+  name: oldpacman
+  namespace: oldpacman
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+        name: oldpacman
+  template:
+    metadata:
+      labels:
+        name: oldpacman
+    spec:
+      containers:
+      - image: quay.io/ifont/pacman-nodejs-app:latest
+        imagePullPolicy: IfNotPresent
+        name: oldpacman
+        ports:
+        - containerPort: 8080
+          name: op-http-server
