@@ -28,7 +28,7 @@ spec:
   type: LoadBalancer
   ports:
     - port: 27018
-      targetPort: 27017
+      targetPort: 27018
   selector:
     name: op-mongo
 ---
@@ -55,7 +55,7 @@ spec:
         name: op-mongo
         ports:
         - name: op-mongo
-          containerPort: 27017
+          containerPort: 27018
         volumeMounts:
           - name: op-mongo-db
             mountPath: /data/db
