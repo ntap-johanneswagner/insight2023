@@ -2,8 +2,8 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: mydata-from-snap
+  namespace: busybox
   labels:
-    app.kubernetes.io/name: kompaktlivelab-scenario03
     app: busybox
 spec:
   accessModes:
