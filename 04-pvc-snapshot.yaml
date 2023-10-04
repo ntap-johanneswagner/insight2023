@@ -2,8 +2,8 @@ apiVersion: snapshot.storage.k8s.io/v1
 kind: VolumeSnapshot
 metadata:
   name: mydata-snapshot
+  namespace: busybox
   labels:
-    app.kubernetes.io/name: kompaktlivelab-scenario03
     app: busybox
 spec:
   volumeSnapshotClassName: csi-snapclass
