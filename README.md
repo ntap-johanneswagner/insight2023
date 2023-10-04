@@ -23,11 +23,11 @@ kubectl get sc
 ```
 => SC zeigen
 ```console
-cat 1-rke1_sc_san.yaml
+cat 01-rke1_sc_san.yaml
 ```
 => sc anwenden
 ```console
-kubectl apply -f 1-rke1_san.yaml
+kubectl apply -f 01-rke1_sc_san.yaml
 ```
 => sc zeigen
 ```console
@@ -35,7 +35,9 @@ kubectl get sc
 ```
 # show app
 ```console
-cat 2-pacman.yml
+cat 02-pacman.yml
+kubectl apply -f 02-pacman.yml
+kubectl get -n pacman all,pvc
 => show ontap cluster and volume
 ```console
 kubectl describe pvc mongo-storage -n pacman
@@ -43,6 +45,7 @@ kubectl describe pvc mongo-storage -n pacman
 ```console
 kubectl patch -n pacman pvc mongo-storage -p '{"spec":{"resources":{"requests":{"storage":"10Gi"}}}}'
 kubectl describe pvc mongo-storage -n pacman
+=> show ontap
 => resize volume to be smaller
 ```console
 kubectl patch -n pacman pvc mongo-storage -p '{"spec":{"resources":{"requests":{"storage":"8Gi"}}}}'
@@ -58,6 +61,7 @@ kubectl exec -n busybox $(kubectl get pod -n busybox -o name) -- more /data/test
 cat 04-pvc-snapshot.yaml
 kubectl apply -f 04-pvc-snapshot.yaml
 kubectl get volumesnapshot -n busybox
+=> im Ontap zeigen
 kubectl exec -n busybox $(kubectl get pod -n busybox -o name) -- rm -f /data/test.txt
 kubectl exec -n busybox $(kubectl get pod -n busybox -o name) -- more /data/test.txt
 cat 05-pvc_from_snap.yaml
@@ -65,7 +69,7 @@ kubectl apply -f 05-pvc_from_snap.yaml
 kubectl get pvc -n busybox
 => show ontap
 kubectl patch -n busybox deploy busybox -p '{"spec":{"template":{"spec":{"volumes":[{"name":"volume","persistentVolumeClaim":{"claimName":"mydata-from-snap"}}]}}}}'
-kubectl exec -n busybox $(kubectl get pod -n busybox -o name) -- ls -l /data/
+
 kubectl exec -n busybox $(kubectl get pod -n busybox -o name) -- more /data/test.txt
 
 => demo acc remember, wildcards .*mongo.*
