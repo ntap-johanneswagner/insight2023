@@ -36,7 +36,7 @@ cat 04-pvc-snapshot.yaml
 kubectl apply -f 04-pvc-snapshot.yaml
 kubectl get volumesnapshot -n busybox
 ```
-=> im Ontap zeigen
+=> show in ontap cluster
 ```console
 kubectl exec -n busybox $(kubectl get pod -n busybox -o name) -- rm -f /data/insight2023message.txt
 kubectl exec -n busybox $(kubectl get pod -n busybox -o name) -- more /data/insight2023message.txt
