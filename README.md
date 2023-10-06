@@ -24,6 +24,7 @@ kubectl get -n pacman all,pvc
 => demo acc remember, wildcards .*mongo.*
 
 # demo snapshot (all in rke2)
+```console
 kubectl apply -f 03-busybox.yaml
 kubectl get all,pvc -n busybox 
 kubectl patch -n busybox pvc mydata -p '{"spec":{"resources":{"requests":{"storage":"20Gi"}}}}'
@@ -34,31 +35,36 @@ kubectl exec -n busybox $(kubectl get pod -n busybox -o name) -- more /data/insi
 cat 04-pvc-snapshot.yaml
 kubectl apply -f 04-pvc-snapshot.yaml
 kubectl get volumesnapshot -n busybox
+```
 => im Ontap zeigen
+```console
 kubectl exec -n busybox $(kubectl get pod -n busybox -o name) -- rm -f /data/insight2023message.txt
 kubectl exec -n busybox $(kubectl get pod -n busybox -o name) -- more /data/insight2023message.txt
 cat 05-pvc_from_snap.yaml
 kubectl apply -f 05-pvc_from_snap.yaml
 kubectl get pvc -n busybox
+```
 => show ontap
+```console
 kubectl patch -n busybox deploy busybox -p '{"spec":{"template":{"spec":{"volumes":[{"name":"volume","persistentVolumeClaim":{"claimName":"mydata-from-snap"}}]}}}}'
 
 kubectl exec -n busybox $(kubectl get pod -n busybox -o name) -- more /data/insight2023message.txt
-
+```
 => demo acc remember, wildcards .*mongo.*
 
 destroy pacman in rke2
 
 first show highscores in pacman in rke2
 
-
+```console
 kubectl exec -it -n pacman $(kubectl get pod -n pacman -l "name=mongo" -o name) -- mongo --eval 'db.highscore.updateMany({"name": "CharlieG"},{$set:{name:"CharlieG",cloud:"Insight 2023",zone:"Vegas",host:"MGM",score:9999}});' pacman
-
+```
 ```bash
 rke2
 kubectl exec -it -n pacman $(kubectl get pod -n pacman -l "name=mongo" -o name) -- mongo --eval 'db.highscore.updateMany({},{$set:{name:"EVIL",cloud:"YOU",zone:"HAVE BEEN",host:"HACKED",score:"666"}});' pacman
 ```
-
+some db stuff
+```console
 db.highscore.updateOne({"_id": ObjectId("651ec891683af30011f7f04b")}, {$set: {name: "GeorgeK"}})
 
 db.highscore.replaceOne({"name": "CharlieG"}, {"score": "9999"})
@@ -68,4 +74,4 @@ kubectl exec -it -n pacman $(kubectl get pod -n pacman -l "name=mongo" -o name) 
 kubectl exec -it -n pacman $(kubectl get pod -n pacman -l "name=mongo" -o name) -- mongo --eval 'db.highscore.replaceOne({"name": "CharlieG",}, {name:"CharlieG",cloud:"Vegas",zone:"MGM",host:"Insight2023",score:80});' pacman
 
 kubectl exec -it -n pacman $(kubectl get pod -n pacman -l "name=mongo" -o name) -- mongo --eval 'db.highscore.replaceOne({"name": "CharlieG",}, {name:"CharlieG",cloud:"Vegas",zone:"MGM",host:"Insight2023",score:9999});' pacman
-
+```
