@@ -83,3 +83,13 @@ rke2
 kubectl exec -it -n pacman $(kubectl get pod -n pacman -l "name=mongo" -o name) -- mongo --eval 'db.highscore.updateMany({},{$set:{name:"EVIL",cloud:"YOU",zone:"HAVE BEEN",host:"HACKED",score:"666"}});' pacman
 ```
 
+db.highscore.updateOne({"_id": ObjectId("651ec891683af30011f7f04b")}, {$set: {name: "GeorgeK"}})
+
+db.highscore.replaceOne({"name": "CharlieG"}, {"score": "9999"})
+
+kubectl exec -it -n pacman $(kubectl get pod -n pacman -l "name=mongo" -o name) -- mongo --eval 'db.highscore.updateMany({},{$set:{cloud:"Insight 2023",zone:"Vegas",host:"MGM"}});' pacman
+
+kubectl exec -it -n pacman $(kubectl get pod -n pacman -l "name=mongo" -o name) -- mongo --eval 'db.highscore.replaceOne({"name": "CharlieG",}, {name:"CharlieG",cloud:"Vegas",zone:"MGM",host:"Insight2023",score:80});' pacman
+
+kubectl exec -it -n pacman $(kubectl get pod -n pacman -l "name=mongo" -o name) -- mongo --eval 'db.highscore.replaceOne({"name": "CharlieG",}, {name:"CharlieG",cloud:"Vegas",zone:"MGM",host:"Insight2023",score:9999});' pacman
+
