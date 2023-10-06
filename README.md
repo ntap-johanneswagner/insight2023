@@ -17,7 +17,7 @@ rke1
 cat 02-pacman.yml
 kubectl apply -f 02-pacman.yml
 kubectl get -n pacman all,pvc
-
+```
 
 
 
