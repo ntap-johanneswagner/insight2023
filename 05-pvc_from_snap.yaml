@@ -10,7 +10,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 10Gi
+      storage: 20Gi
   storageClassName: sc-nas-svm1
   dataSource:
     name: mydata-snapshot
