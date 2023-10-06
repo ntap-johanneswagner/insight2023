@@ -11,7 +11,7 @@ spec:
   resources:
     requests:
       storage: 20Gi
-  storageClassName: sc-nas-svm1
+  storageClassName: sc-nas-svm2
   dataSource:
     name: mydata-snapshot
     kind: VolumeSnapshot
