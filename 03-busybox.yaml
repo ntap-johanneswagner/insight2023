@@ -17,7 +17,7 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  storageClassName: sc-nas-svm1
+  storageClassName: sc-nas-svm2
 ---
 apiVersion: apps/v1
 kind: Deployment
